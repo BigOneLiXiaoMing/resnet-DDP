@@ -43,12 +43,12 @@ transform = transforms.Compose([
     transforms.ToTensor()])
 
 # CIFAR-10 数据集下载
-train_dataset = torchvision.datasets.CIFAR10(root='../data/',
+train_dataset = torchvision.datasets.CIFAR10(root='/nas/data/cifar-10',
                                              train=True,
                                              transform=transform,
-                                             download=True)
+                                             download=False)
 train_sampler = torch.utils.data.distributed.DistributedSampler(train_dataset)
-test_dataset = torchvision.datasets.CIFAR10(root='../data/',
+test_dataset = torchvision.datasets.CIFAR10(root='/nas/data/cifar-10',
                                             train=False,
                                             transform=transforms.ToTensor())
 test_sampler = torch.utils.data.distributed.DistributedSampler(test_dataset)
