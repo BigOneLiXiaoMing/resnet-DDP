@@ -18,17 +18,17 @@ parser = argparse.ArgumentParser()
 parser.add_argument("--local_rank", default=-1)
 FLAGS = parser.parse_args()
 local_rank = FLAGS.local_rank
-
+print(local_rank, 'local_rank')
 # 新增3：DDP backend初始化
 #   a.根据local_rank来设定当前使用哪块GPU
 # torch.cuda.set_device(local_rank)
-torch.cuda.set_device('cuda:'+str(local_rank))
+torch.cuda.set_device('cuda:'+local_rank)
 #   b.初始化DDP，使用默认backend(nccl)就行。如果是CPU模型运行，需要选择其他后端。
 dist.init_process_group(backend='nccl')
 
 # 新增4：定义并把模型放置到单独的GPU上，需要在调用`model=DDP(model)`前做哦。
 #       如果要加载模型，也必须在这里做哦。
-device = torch.device("cuda:"+str(local_rank))
+device = torch.device("cuda:"+local_rank)
 
 
 num_epochs = 50  # 50轮
